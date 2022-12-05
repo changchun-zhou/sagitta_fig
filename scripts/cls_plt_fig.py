@@ -139,7 +139,7 @@ class cls_plt_fig():
                     if plt_text:
                         for idx_point in range(len(x_coordinate)):
                             ax_array[idx_axis].text(x_coordinate[idx_point]
-                            , y_value[idx_axis][idx_vector][idx_point]+1,'%.1f' %y_value[idx_axis][idx_vector][idx_point],va='top', ha='center', fontsize=font_size-1)
+                            , y_value[idx_axis][idx_vector][idx_point]+0.4,'%.1f' %y_value[idx_axis][idx_vector][idx_point],va='top', ha='center', fontsize=font_size-1)
 
             ##################################
             # serial setting
@@ -176,7 +176,8 @@ class cls_plt_fig():
         # plt.xticks(xticks, ["0.7", "0.8", "0.9", "1.0", "1.1", "1.2"]) #, "0.7", "0.8", "0.9", "1.0", "1.1", "1.2"
         print(x_value, xticks)
         # plt.xticks(np.append(xticks, 10), np.append(xticks, '10'), fontsize=font_size)# if xticks is not None else x_value)
-        plt.xticks(xticks_loc, xticks, fontsize=font_size)# if xticks is not None else x_value)
+        # plt.xticks(xticks_loc, xticks, fontsize=font_size)# if xticks is not None else x_value)
+        plt.xticks(x_value, xticks, fontsize=font_size)# if xticks is not None else x_value)
         
         # fig.autofmt_xdate(rotation=45)
         # plt.gca().xaxis.set_major_formatter(ticker.FormatStrFormatter('%.2f'))
@@ -213,16 +214,16 @@ class cls_plt_fig():
         
         # handles1 = [handles1[0]] + [handles1[2]]
         # labels1 = [labels1[0]] + [labels1[2]]
-        plt.legend(handles1, labels1, fontsize=font_size, loc=legend_loc, ncol=legend_ncol, frameon=False, handletextpad=0.2,columnspacing=0.4 ) # handletextpad=0.4,columnspacing=0.8 ) # #, 
+        # plt.legend(handles1, labels1, fontsize=font_size, loc=legend_loc, ncol=legend_ncol, frameon=False, handletextpad=0.2,columnspacing=0.4 ) # handletextpad=0.4,columnspacing=0.8 ) # #, 
         plt.rcParams['hatch.color'] = "white"
         if PercentFormatter == True:
             ax_array[0].yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
             ax_array[1].yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
-        # ax.tick_params(axis='x', labelrotation = 45)
+        ax.tick_params(axis='x', labelrotation = 45)
         ax.minorticks_on()
         ax.xaxis.set_tick_params(which='minor', bottom=False)
         ax_array[0].tick_params(axis='y', which='minor',width=1.5, length=3, labelsize = font_size, direction='out')
-        yminorLocator = ticker.MultipleLocator(1)
+        yminorLocator = ticker.MultipleLocator(0.5)
         ax.yaxis.set_minor_locator(yminorLocator)
 #         plt.rcParams['font.family']='Arial'
         plt.savefig(fig_name, format='svg')
