@@ -213,7 +213,7 @@ class cls_plt_fig():
         
         # handles1 = [handles1[0]] + [handles1[2]]
         # labels1 = [labels1[0]] + [labels1[2]]
-        plt.legend(handles1, labels1, fontsize=font_size, loc=legend_loc, ncol=legend_ncol, frameon=False, handletextpad=0.2,columnspacing=0.4 )
+        plt.legend(handles1, labels1, fontsize=font_size, loc=legend_loc, ncol=legend_ncol, frameon=False, handletextpad=0.2,columnspacing=0.4 ) # handletextpad=0.4,columnspacing=0.8 ) # #, 
         plt.rcParams['hatch.color'] = "white"
         if PercentFormatter == True:
             ax_array[0].yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
