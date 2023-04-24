@@ -55,6 +55,7 @@ class cls_plt_fig():
             grid_axis= None,
             plt_text= False,
             PercentFormatter = False,
+            PercentFormatter_x = False,
             minor = None,
             labelrotation = None, # 45
             legend_loc= "best",
@@ -222,10 +223,13 @@ class cls_plt_fig():
         plt.rcParams['hatch.color'] = "white"
         if PercentFormatter == True:
             ax_array[0].yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
-            ax_array[1].yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
+            # if y_dim[0] > 1:
+            #     ax_array[1].yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
+        if PercentFormatter_x == True:
+            ax_array[0].xaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
         if labelrotation:
             ax.tick_params(axis='x', labelrotation = labelrotation)
-s
+
         if minor:
             ax.minorticks_on()
             ax.xaxis.set_tick_params(which='minor', bottom=False)
