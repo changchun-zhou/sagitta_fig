@@ -54,12 +54,13 @@ class cls_plt_fig():
 
             grid_axis= None,
             plt_text= False,
-            PercentFormatter = False,
+            PercentFormatter = [False, True],
             PercentFormatter_x = False,
             minor = None,
             labelrotation = None, # 45
             legend_loc= "best",
             legend_ncol=1,
+            legend_columnspacing = 0.4,
             figsize = (7, 3.733)
             ): # dict
         y_dim = np.shape(y_value)
@@ -219,12 +220,13 @@ class cls_plt_fig():
 #             handles1 = [handles1[0]] + [handles1[2]]
 #             labels1 = [labels1[0]] + [labels1[2]]
             plt.legend(handles1, labels1, fontsize=font_size, loc=legend_loc, ncol=legend_ncol, 
-                       frameon=False, handletextpad=0.2,columnspacing=0.4 ) # handletextpad=0.4,columnspacing=0.8 ) # #, 
+                       frameon=False, handletextpad=0.2,columnspacing=legend_columnspacing ) # handletextpad=0.4,columnspacing=0.8 ) # #, 
         plt.rcParams['hatch.color'] = "white"
-        if PercentFormatter == True:
+        if PercentFormatter[0] == True:
             ax_array[0].yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
-            # if y_dim[0] > 1:
-            #     ax_array[1].yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
+        if y_dim[0] > 1:
+            if PercentFormatter[1] == True:
+                ax_array[1].yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
         if PercentFormatter_x == True:
             ax_array[0].xaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
         if labelrotation:
