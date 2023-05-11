@@ -15,7 +15,7 @@ class cls_plt_fig():
             x_value=np.array([0,1,2]), 
             xticks_loc=(0, 0),
             xticks= ['Conv1', 'Conv2'],
-            border_width = 1,
+            border_width = 0.5,
             
             y_label=[r"$\bf{Speedup}$", r"$\bf{Energy}$"], # 1D
             
@@ -33,8 +33,8 @@ class cls_plt_fig():
             y_linestyle='-',
             y_marker=[['s', 's'], ['*', '*'], ['o', 'o']],
             y_markersize=10,
-            # y_markerfacecolor=[[None]],
-            y_markeredgecolor="white",
+            y_markerfacecolor=[[None for i in range(100)] for j in range(100)],
+            y_markeredgecolor=[["white" for i in range(100)] for j in range(100)],
             y_markeredgewidth=1,
             # bar:
             y_edgecolor = [[None, None],[None, None]],# [[(0,0,0)],[(0,0,0)]],
@@ -54,13 +54,16 @@ class cls_plt_fig():
 
             grid_axis= None,
             plt_text= False,
-            PercentFormatter = [False, True],
+            plt_text_first = False,
+            plt_text_format = '%.1f',
+            PercentFormatter = [False, False],
             PercentFormatter_x = False,
             minor = None,
             labelrotation = None, # 45
             legend_loc= "best",
             legend_ncol=1,
             legend_columnspacing = 0.4,
+            handletextpad = 0.2,
             figsize = (7, 3.733)
             ): # dict
         y_dim = np.shape(y_value)
@@ -103,7 +106,7 @@ class cls_plt_fig():
 
         (handles1, labels1) = ([], [])
         for idx_axis in range(y_dim[0]):
-            for idx_vector in range(y_dim[1]):
+            for idx_vector in range(np.shape(y_value[idx_axis])[0]):
                 if  y_fig_type[idx_axis][idx_vector] == "plot":
                     ax_array[idx_axis].plot(
                             x_value, #+ 0.04/0.5*idx_axis*(x_value-0.7)
@@ -114,7 +117,8 @@ class cls_plt_fig():
                             color=y_color[idx_axis][idx_vector],  
                             marker=y_marker[idx_axis][idx_vector], 
                             markersize=y_markersize if y_marker[idx_axis][idx_vector] !="*" else y_markersize+10, 
-                            markeredgecolor = y_markeredgecolor, 
+                            markerfacecolor = y_markerfacecolor[idx_axis][idx_vector],
+                            markeredgecolor = y_markeredgecolor[idx_axis][idx_vector], 
                             markeredgewidth = y_markeredgewidth,
                             zorder=10
                             )
@@ -126,7 +130,7 @@ class cls_plt_fig():
                     ax_bar_center_bias =  (bar_width+bar_gap_width)*bar_pair/2
 
                     x_coordinate =  x_value \
-                                +(bar_width +bar_gap_width)*(idx_vector-(y_dim[1]-1)/2) \
+                                +(bar_width +bar_gap_width)*(idx_vector-(np.shape(y_value[idx_axis])[0]-1)/2) \
                                 + (ax_bar_center_bias if idx_axis > 0 else (- ax_bar_center_bias))
                     ax_array[idx_axis].bar(
                             x_coordinate
@@ -142,8 +146,9 @@ class cls_plt_fig():
                             )
                     if plt_text:
                         for idx_point in range(len(x_coordinate)):
-                            ax_array[idx_axis].text(x_coordinate[idx_point]
-                            , y_value[idx_axis][idx_vector][idx_point] + (y_yticks_max[idx_axis] - y_yticks_min[idx_axis])*0.07,'%.1f' %y_value[idx_axis][idx_vector][idx_point],va='top', ha='center', fontsize=font_size-1)
+                            if not (plt_text_first == True and idx_point >= 1):
+                                ax_array[idx_axis].text(x_coordinate[idx_point]
+                                , y_value[idx_axis][idx_vector][idx_point] + (y_yticks_max[idx_axis] - y_yticks_min[idx_axis])*0.07,plt_text_format%y_value[idx_axis][idx_vector][idx_point],va='top', ha='center', fontsize=font_size-1)
 
             ##################################
             # serial setting
@@ -179,7 +184,6 @@ class cls_plt_fig():
         ax.set_xlim(x_value[0]-border_width, x_value[-1]+border_width)
         # ax.set_xlim(x_value[0]-bar_width*2, 22)
         # plt.xticks(xticks, ["0.7", "0.8", "0.9", "1.0", "1.1", "1.2"]) #, "0.7", "0.8", "0.9", "1.0", "1.1", "1.2"
-        print(x_value, xticks)
         # plt.xticks(np.append(xticks, 10), np.append(xticks, '10'), fontsize=font_size)# if xticks is not None else x_value)
         # plt.xticks(xticks_loc, xticks, fontsize=font_size)# if xticks is not None else x_value)
         plt.xticks(x_value, xticks, fontsize=font_size)# if xticks is not None else x_value)
@@ -220,7 +224,7 @@ class cls_plt_fig():
 #             handles1 = [handles1[0]] + [handles1[2]]
 #             labels1 = [labels1[0]] + [labels1[2]]
             plt.legend(handles1, labels1, fontsize=font_size, loc=legend_loc, ncol=legend_ncol, 
-                       frameon=False, handletextpad=0.2,columnspacing=legend_columnspacing ) # handletextpad=0.4,columnspacing=0.8 ) # #, 
+                       frameon=False, handletextpad=handletextpad,columnspacing=legend_columnspacing ) # handletextpad=0.4,columnspacing=0.8 ) # #, 
         plt.rcParams['hatch.color'] = "white"
         if PercentFormatter[0] == True:
             ax_array[0].yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=0))
