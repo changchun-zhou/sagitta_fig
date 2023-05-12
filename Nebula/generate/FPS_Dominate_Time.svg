@@ -39,7 +39,7 @@ C 312.126834 210.1381 314.872556 195.067751 314.961754 179.865475
 L 184.5 179.1 
 L 284.441222 95.239357 
 z
-" style="fill:#81bae2;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
+" style="fill:#719bcb;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
    </g>
    <g id="patch_3">
     <path d="M 314.961754 179.865475 
@@ -48,7 +48,7 @@ C 314.93236 176.074621 314.90694 175.12716 314.871199 174.180061
 L 184.5 179.1 
 L 314.961754 179.865475 
 z
-" style="fill:#ffb47b;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
+" style="fill:#00adba;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
    </g>
    <g id="patch_4">
     <path d="M 314.871199 174.180061 
@@ -57,7 +57,7 @@ C 309.558803 140.993266 306.837902 132.999401 303.365399 125.32387
 L 184.5 179.1 
 L 314.871199 174.180061 
 z
-" style="fill:#b466b6;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
+" style="fill:#ff6464;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
    </g>
    <g id="patch_5">
     <path d="M 303.365399 125.32387 
@@ -66,7 +66,7 @@ C 291.767479 104.602491 288.26219 99.793009 284.441219 95.239353
 L 184.5 179.1 
 L 303.365399 125.32387 
 z
-" style="fill:#ff6464;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
+" style="fill:#ffb47b;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
    </g>
    <g id="matplotlib.axis_1"/>
    <g id="matplotlib.axis_2"/>
@@ -77,7 +77,7 @@ L 72.774 346.069687
 L 72.774 333.469687 
 L 36.774 333.469687 
 z
-" style="fill:#81bae2;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
+" style="fill:#719bcb;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
     </g>
     <g id="text_1">
      <!-- Sampling -->
@@ -307,7 +307,7 @@ L 72.774 371.961563
 L 72.774 359.361562 
 L 36.774 359.361562 
 z
-" style="fill:#ffb47b;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
+" style="fill:#00adba;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
     </g>
     <g id="text_2">
      <!-- Grouping -->
@@ -419,7 +419,7 @@ L 275.6115 346.069687
 L 275.6115 333.469687 
 L 239.6115 333.469687 
 z
-" style="fill:#b466b6;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
+" style="fill:#ff6464;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
     </g>
     <g id="text_3">
      <!-- Convolution -->
@@ -504,7 +504,7 @@ L 275.6115 371.53125
 L 275.6115 358.93125 
 L 239.6115 358.93125 
 z
-" style="fill:#ff6464;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
+" style="fill:#ffb47b;stroke:#ffffff;stroke-linejoin:miter;stroke-width:0.1;"/>
     </g>
     <g id="text_4">
      <!-- Pooling -->
