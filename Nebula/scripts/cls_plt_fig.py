@@ -32,14 +32,14 @@ class cls_plt_fig():
             # plot:
             y_linestyle='-',
             y_marker=[['s', 's'], ['*', '*'], ['o', 'o']],
-            y_markersize=10,
+            y_markersize=[[5 for i in range(100)] for j in range(100)],
             y_markerfacecolor=[[None for i in range(100)] for j in range(100)],
             y_markeredgecolor=[["white" for i in range(100)] for j in range(100)],
             y_markeredgewidth=1,
             # bar:
             y_edgecolor = [[None, None],[None, None]],# [[(0,0,0)],[(0,0,0)]],
             y_facecolor = None,# [[(0,0,0)],[(0,0,0)]],
-            y_hatch = [[None, None],[None, None]],
+            y_hatch = [[None for i in range(100)] for j in range(100)],
             ylim_min = None,
 
             # global setting
@@ -116,7 +116,7 @@ class cls_plt_fig():
                             linestyle=y_linestyle[idx_axis][idx_vector], 
                             color=y_color[idx_axis][idx_vector],  
                             marker=y_marker[idx_axis][idx_vector], 
-                            markersize=y_markersize if y_marker[idx_axis][idx_vector] !="*" else y_markersize+10, 
+                            markersize=y_markersize[idx_axis][idx_vector], 
                             markerfacecolor = y_markerfacecolor[idx_axis][idx_vector],
                             markeredgecolor = y_markeredgecolor[idx_axis][idx_vector], 
                             markeredgewidth = y_markeredgewidth,
@@ -147,8 +147,17 @@ class cls_plt_fig():
                     if plt_text:
                         for idx_point in range(len(x_coordinate)):
                             if not (plt_text_first == True and idx_point >= 1):
+                                # Adjust format and height of a text
+                                if idx_point == 0:
+                                    plt_text_format = '%d'
+                                else:
+                                    plt_text_format = '%.1f'
+                                if idx_vector == 1 and idx_point == 6:
+                                    plt_text_scale = 0.09
+                                else:
+                                    plt_text_scale = 0.07
                                 ax_array[idx_axis].text(x_coordinate[idx_point]
-                                , y_value[idx_axis][idx_vector][idx_point] + (y_yticks_max[idx_axis] - y_yticks_min[idx_axis])*0.07,plt_text_format%y_value[idx_axis][idx_vector][idx_point],va='top', ha='center', fontsize=font_size-1)
+                                , y_value[idx_axis][idx_vector][idx_point] + (y_yticks_max[idx_axis] - y_yticks_min[idx_axis])*plt_text_scale,plt_text_format%y_value[idx_axis][idx_vector][idx_point],va='top', ha='center', fontsize=font_size-1)
 
             ##################################
             # serial setting
