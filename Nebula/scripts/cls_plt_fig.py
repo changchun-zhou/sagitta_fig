@@ -9,62 +9,66 @@ class cls_plt_fig():
     def __init__(self, name):
         self.name = name
     def func_plt_fig(self, 
-            fig_name='../generate/test.svg',
+            fig_name        ='../generate/test.svg',
 
-            x_label=None, # r"$\bf{Conv\ Layers}$",
-            x_value=np.array([0,1,2]), 
-            xticks_loc=(0, 0),
-            xticks= ['Conv1', 'Conv2'],
-            border_width = 0.5,
+            x_label         =None, # r"$\bf{Conv\ Layers}$",
+            x_value         =np.array([0,1,2]), 
+            xticks_loc      =(0, 0),
+            xticks          = ['Conv1', 'Conv2'],
+            border_width    = 0.5,
             
-            y_label=[r"$\bf{Speedup}$", r"$\bf{Energy}$"], # 1D
+            y_label         =[r"$\bf{Speedup}$", r"$\bf{Energy}$"], # 1D
             
             # 3D: [Y_axis][Curve/Vector][Point]
-            y_value=[[np.array([2.55, 3.48]),np.array([2.55, 3.48])], [np.array([2.55, 3.48]), np.array([2.55, 3.48])]],
-            y_fig_type=[["bar"], ["bar"]],# 2D
-            y_legend= [["Speedup"], ["Energy"]], # 2D
+            y_value         =[[np.array([2.55, 3.48]),np.array([2.55, 3.48])], [np.array([2.55, 3.48]), np.array([2.55, 3.48])]],
+            y_fig_type      =[["bar"], ["bar"]],# 2D
+            y_legend        = [["Speedup"], ["Energy"]], # 2D
 
-            y_color=[[(0,0,0)],[(0,0,0)]], # 2D
-            y_yticks_max= [10, None],
-            y_yticks_min= [0, None],
-            y_axis_color=[(0,0,0), (0,0,0)],
+            y_color         =[[(0,0,0)],[(0,0,0)]], # 2D
+            y_yticks_max    = [10, None],
+            y_yticks_min    = [0, None],
+            y_drop_min      = [False, False],
+            ylim_upappend   = [0, 0],
+            ylim_downappend =[0, 0],
+            y_axis_color    =[(0,0,0), (0,0,0)],
 
             # plot:
-            y_linestyle='-',
-            y_marker=[['s', 's'], ['*', '*'], ['o', 'o']],
-            y_markersize=[[5 for i in range(100)] for j in range(100)],
+            y_linestyle     ='-',
+            y_marker        =[['s', 's'], ['*', '*'], ['o', 'o']],
+            y_markersize    =[[5 for i in range(100)] for j in range(100)],
             y_markerfacecolor=[[None for i in range(100)] for j in range(100)],
             y_markeredgecolor=[["white" for i in range(100)] for j in range(100)],
             y_markeredgewidth=1,
             # bar:
-            y_edgecolor = [[None, None],[None, None]],# [[(0,0,0)],[(0,0,0)]],
-            y_facecolor = None,# [[(0,0,0)],[(0,0,0)]],
-            y_hatch = [[None for i in range(100)] for j in range(100)],
-            ylim_min = None,
+            y_edgecolor     = [[None, None],[None, None]],# [[(0,0,0)],[(0,0,0)]],
+            y_facecolor     = None,# [[(0,0,0)],[(0,0,0)]],
+            y_hatch         = [[None for i in range(100)] for j in range(100)],
+            ylim_min        = None,
 
             # global setting
-            len_yticks = [10, 5],
+            len_yticks      = [10, 5],
             # legend_size= 12,
             # label_size= 12,
             # xticks_fontsize= 12,
-            font_size = 13,
-            linewidth= 2,
-            bar_width = 0.4,
-            bar_gap_width = 0.4/4,
+            font_size       = 13,
+            linewidth       = 2,
+            bar_width       = 0.4,
+            bar_gap_width   = 0.4/4,
 
-            grid_axis= None,
-            plt_text= False,
-            plt_text_first = False,
+            grid_axis       = None,
+            plt_text        = False,
+            plt_text_first  = False,
             plt_text_format = '%.1f',
-            PercentFormatter = [False, False],
-            PercentFormatter_x = False,
-            minor = None,
-            labelrotation = None, # 45
-            legend_loc= "best",
-            legend_ncol=1,
+            plt_text_scale  = 0.07,
+            PercentFormatter= [False, False],
+            PercentFormatter_x= False,
+            minor           = None,
+            labelrotation   = None, # 45
+            legend_loc      = "best",
+            legend_ncol     =1,
             legend_columnspacing = 0.4,
-            handletextpad = 0.2,
-            figsize = (7, 3.733)
+            handletextpad   = 0.2,
+            figsize         = (7, 3.733)
             ): # dict
         y_dim = np.shape(y_value)
 
@@ -147,15 +151,21 @@ class cls_plt_fig():
                     if plt_text:
                         for idx_point in range(len(x_coordinate)):
                             if not (plt_text_first == True and idx_point >= 1):
-                                # Adjust format and height of a text
+
+                                #################################################### 
+                                ## Adjust format and height of a text
                                 if idx_point == 0:
                                     plt_text_format = '%d'
                                 else:
                                     plt_text_format = '%.1f'
-                                if idx_vector == 1 and idx_point == 6:
+                                if idx_vector == 1 and idx_point == 7:
                                     plt_text_scale = 0.09
+                                elif idx_vector == 1 and idx_point == 3:
+                                    plt_text_scale = 0.12
                                 else:
                                     plt_text_scale = 0.07
+                                ####################################################
+
                                 ax_array[idx_axis].text(x_coordinate[idx_point]
                                 , y_value[idx_axis][idx_vector][idx_point] + (y_yticks_max[idx_axis] - y_yticks_min[idx_axis])*plt_text_scale,plt_text_format%y_value[idx_axis][idx_vector][idx_point],va='top', ha='center', fontsize=font_size-1)
 
@@ -172,15 +182,17 @@ class cls_plt_fig():
             # yticks
             ax_array[idx_axis].tick_params(axis='y', which='major',width=1.5, length=6, labelsize = font_size, colors=y_axis_color[idx_axis], direction='out')
 
-
             if y_yticks_min and y_yticks_max[idx_axis] and len_yticks:
-                ax_array[idx_axis].set_yticks(np.linspace(y_yticks_min[idx_axis], y_yticks_max[idx_axis], len_yticks[idx_axis]+1)) # occupy fully yaxis
-                ax_array[idx_axis].set_ylim(y_yticks_min[idx_axis],y_yticks_max[idx_axis])
+                if y_drop_min[idx_axis]:
+                    y_ticks = np.linspace(y_yticks_min[idx_axis] + ( y_yticks_max[idx_axis]-y_yticks_min[idx_axis] )/len_yticks[idx_axis], y_yticks_max[idx_axis], len_yticks[idx_axis])
+                else:
+                    y_ticks = np.linspace(y_yticks_min[idx_axis], y_yticks_max[idx_axis], len_yticks[idx_axis]+1)
+                ax_array[idx_axis].set_yticks(y_ticks) # occupy fully yaxis
+                ax_array[idx_axis].set_ylim(y_yticks_min[idx_axis] - ylim_downappend[idx_axis], y_yticks_max[idx_axis] + ylim_upappend[idx_axis])
             # legend
             (handle1, label1)= ax_array[idx_axis].get_legend_handles_labels()
             handles1 += handle1
             labels1  += label1
-
 
 
         ##################################
