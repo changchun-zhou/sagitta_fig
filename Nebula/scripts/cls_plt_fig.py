@@ -22,7 +22,7 @@ class cls_plt_fig():
             # 3D: [Y_axis][Curve/Vector][Point]
             y_value         =[[np.array([2.55, 3.48]),np.array([2.55, 3.48])], [np.array([2.55, 3.48]), np.array([2.55, 3.48])]],
             y_fig_type      =[["bar"], ["bar"]],# 2D
-            y_legend        = [["Speedup"], ["Energy"]], # 2D
+            y_legend        = [[None for i in range(100)] for j in range(100)], # 2D
 
             y_color         =[[(0,0,0)],[(0,0,0)]], # 2D
             y_yticks_max    = [10, None],
@@ -33,7 +33,7 @@ class cls_plt_fig():
             y_axis_color    =[(0,0,0), (0,0,0)],
 
             # plot:
-            y_linestyle     ='-',
+            y_linestyle     =[[None for i in range(100)] for j in range(100)],
             y_marker        =[['s', 's'], ['*', '*'], ['o', 'o']],
             y_markersize    =[[5 for i in range(100)] for j in range(100)],
             y_markerfacecolor=[[None for i in range(100)] for j in range(100)],
@@ -43,7 +43,8 @@ class cls_plt_fig():
             y_edgecolor     = [[None, None],[None, None]],# [[(0,0,0)],[(0,0,0)]],
             y_facecolor     = None,# [[(0,0,0)],[(0,0,0)]],
             y_hatch         = [[None for i in range(100)] for j in range(100)],
-            ylim_min        = None,
+            # ylim_min        = None,
+            # ylim_max        = None,
 
             # global setting
             len_yticks      = [10, 5],
@@ -57,6 +58,7 @@ class cls_plt_fig():
 
             grid_axis       = None,
             plt_text        = False,
+            plt_content     = [[[None for i in range(100)] for j in range(100)]],
             plt_text_first  = False,
             plt_text_format = '%.1f',
             plt_text_scale  = 0.07,
@@ -112,8 +114,8 @@ class cls_plt_fig():
         for idx_axis in range(y_dim[0]):
             for idx_vector in range(np.shape(y_value[idx_axis])[0]):
                 if  y_fig_type[idx_axis][idx_vector] == "plot":
-                    ax_array[idx_axis].plot(
-                            x_value, #+ 0.04/0.5*idx_axis*(x_value-0.7)
+                    ax_array[idx_axis].semilogy(
+                            x_value[idx_vector], #+ 0.04/0.5*idx_axis*(x_value-0.7)
                             y_value[idx_axis][idx_vector], 
                             label=y_legend[idx_axis][idx_vector],
                             linewidth=linewidth, 
@@ -126,6 +128,34 @@ class cls_plt_fig():
                             markeredgewidth = y_markeredgewidth,
                             zorder=10
                             )
+                    if plt_text:
+                        for idx_point in range(len(x_value[idx_vector])):
+                            if not (plt_text_first == True and idx_point >= 1):
+
+                                #################################################### 
+                                ## Adjust format and height of a text
+                                # if idx_point == 0:
+                                #     plt_text_format = '%d'
+                                # else:
+                                #     plt_text_format = '%.1f'
+                                # if idx_vector == 1 and idx_point == 7:
+                                #     plt_text_scale = 0.09
+                                # elif idx_vector == 1 and idx_point == 3:
+                                #     plt_text_scale = 0.12
+                                # else:
+                                #     plt_text_scale = 0.07
+                                ####################################################
+                                if plt_content[0][0][0] != None:
+                                    if idx_vector != 2:
+                                        ax_array[idx_axis].text(x_value[idx_vector][idx_point]
+                                , y_value[idx_axis][idx_vector][idx_point]*3, plt_content[idx_axis][idx_vector][idx_point],va='top', ha='center', fontsize=font_size-1)
+                                    else:
+                                        ax_array[idx_axis].text(x_value[idx_vector][idx_point]
+                                , y_value[idx_axis][idx_vector][idx_point]/2, plt_content[idx_axis][idx_vector][idx_point],va='top', ha='center', fontsize=font_size-1)
+                                else:
+                                    ax_array[idx_axis].text(x_value[idx_vector][idx_point]
+                                , y_value[idx_axis][idx_vector][idx_point] + (y_yticks_max[idx_axis] - y_yticks_min[idx_axis])*plt_text_scale,plt_text_format%y_value[idx_axis][idx_vector][idx_point],va='top', ha='center', fontsize=font_size-1)
+                                    
                 elif y_fig_type[idx_axis][idx_vector] == "bar":
                     bar_pair = 0
                     if y_fig_type[0][idx_vector] == "bar" and y_dim[0] > 1:
@@ -134,8 +164,8 @@ class cls_plt_fig():
                     ax_bar_center_bias =  (bar_width+bar_gap_width)*bar_pair/2
 
                     x_coordinate =  x_value \
-                                +(bar_width +bar_gap_width)*(idx_vector-(np.shape(y_value[idx_axis])[0]-1)/2) \
-                                + (ax_bar_center_bias if idx_axis > 0 else (- ax_bar_center_bias))
+                                + (ax_bar_center_bias if idx_axis > 0 else (- ax_bar_center_bias)) \
+                                # +(bar_width +bar_gap_width)*(idx_vector-(np.shape(y_value[idx_axis])[0]-1)/2) \
                     ax_array[idx_axis].bar(
                             x_coordinate
                             ,y_value[idx_axis][idx_vector], 
@@ -154,19 +184,23 @@ class cls_plt_fig():
 
                                 #################################################### 
                                 ## Adjust format and height of a text
-                                if idx_point == 0:
-                                    plt_text_format = '%d'
-                                else:
-                                    plt_text_format = '%.1f'
-                                if idx_vector == 1 and idx_point == 7:
-                                    plt_text_scale = 0.09
-                                elif idx_vector == 1 and idx_point == 3:
-                                    plt_text_scale = 0.12
-                                else:
-                                    plt_text_scale = 0.07
+                                # if idx_point == 0:
+                                #     plt_text_format = '%d'
+                                # else:
+                                #     plt_text_format = '%.1f'
+                                # if idx_vector == 1 and idx_point == 7:
+                                #     plt_text_scale = 0.09
+                                # elif idx_vector == 1 and idx_point == 3:
+                                #     plt_text_scale = 0.12
+                                # else:
+                                #     plt_text_scale = 0.07
                                 ####################################################
-
-                                ax_array[idx_axis].text(x_coordinate[idx_point]
+                                if plt_content[0][0][0] != None:
+                                    print("plt_content")
+                                    ax_array[idx_axis].text(x_coordinate[idx_point]
+                                , y_value[idx_axis][idx_vector][idx_point], plt_content[idx_axis][idx_vector][idx_point],va='top', ha='center', fontsize=font_size-1)
+                                else:
+                                    ax_array[idx_axis].text(x_coordinate[idx_point]
                                 , y_value[idx_axis][idx_vector][idx_point] + (y_yticks_max[idx_axis] - y_yticks_min[idx_axis])*plt_text_scale,plt_text_format%y_value[idx_axis][idx_vector][idx_point],va='top', ha='center', fontsize=font_size-1)
 
             ##################################
@@ -174,21 +208,21 @@ class cls_plt_fig():
 
             # xylabel
             if x_label:
-                ax.set_xlabel(x_label, fontsize=font_size+2)
-            ax_array[idx_axis].set_ylabel(y_label[idx_axis], fontsize=font_size+2, 
+                ax.set_xlabel(x_label, fontsize=font_size+1)
+            ax_array[idx_axis].set_ylabel(y_label[idx_axis], fontsize=font_size+1, 
             color=y_axis_color[idx_axis]
             )
 
             # yticks
-            ax_array[idx_axis].tick_params(axis='y', which='major',width=1.5, length=6, labelsize = font_size, colors=y_axis_color[idx_axis], direction='out')
+            ax_array[idx_axis].tick_params(axis='y', which='major',width=1.5, length=6, labelsize = font_size+1, colors=y_axis_color[idx_axis], direction='out')
 
-            if y_yticks_min and y_yticks_max[idx_axis] and len_yticks:
-                if y_drop_min[idx_axis]:
-                    y_ticks = np.linspace(y_yticks_min[idx_axis] + ( y_yticks_max[idx_axis]-y_yticks_min[idx_axis] )/len_yticks[idx_axis], y_yticks_max[idx_axis], len_yticks[idx_axis])
-                else:
-                    y_ticks = np.linspace(y_yticks_min[idx_axis], y_yticks_max[idx_axis], len_yticks[idx_axis]+1)
-                ax_array[idx_axis].set_yticks(y_ticks) # occupy fully yaxis
-                ax_array[idx_axis].set_ylim(y_yticks_min[idx_axis] - ylim_downappend[idx_axis], y_yticks_max[idx_axis] + ylim_upappend[idx_axis])
+            # if y_yticks_min and y_yticks_max[idx_axis] and len_yticks:
+            #     if y_drop_min[idx_axis]:
+            #         y_ticks = np.linspace(y_yticks_min[idx_axis] + ( y_yticks_max[idx_axis]-y_yticks_min[idx_axis] )/len_yticks[idx_axis], y_yticks_max[idx_axis], len_yticks[idx_axis])
+            #     else:
+            #         y_ticks = np.linspace(y_yticks_min[idx_axis], y_yticks_max[idx_axis], len_yticks[idx_axis]+1)
+            #     ax_array[idx_axis].set_yticks(y_ticks) # occupy fully yaxis
+            #     ax_array[idx_axis].set_ylim(y_yticks_min[idx_axis] - ylim_downappend[idx_axis], y_yticks_max[idx_axis] + ylim_upappend[idx_axis])
             # legend
             (handle1, label1)= ax_array[idx_axis].get_legend_handles_labels()
             handles1 += handle1
@@ -199,15 +233,16 @@ class cls_plt_fig():
         # Global setting
 
         # x ticks
-        if ylim_min:
-            ax.set_ylim(ylim_min, )  
+        # if ylim_min:
+            ax.set_ylim(0.01, 1e+7)  
 #         border_width = 1  
-        ax.set_xlim(x_value[0]-border_width, x_value[-1]+border_width)
+        ax.set_xlim(x_value[0][0]-border_width, x_value[0][-1]+border_width)
         # ax.set_xlim(x_value[0]-bar_width*2, 22)
         # plt.xticks(xticks, ["0.7", "0.8", "0.9", "1.0", "1.1", "1.2"]) #, "0.7", "0.8", "0.9", "1.0", "1.1", "1.2"
         # plt.xticks(np.append(xticks, 10), np.append(xticks, '10'), fontsize=font_size)# if xticks is not None else x_value)
         # plt.xticks(xticks_loc, xticks, fontsize=font_size)# if xticks is not None else x_value)
-        plt.xticks(x_value, xticks, fontsize=font_size)# if xticks is not None else x_value)
+        # plt.xticks(x_value, xticks, fontsize=font_size)# if xticks is not None else x_value)
+        plt.xticks(np.arange(1996, 2024, 3), np.arange(1996, 2024, 3), fontsize=font_size)# if xticks is not None else x_value)
         
         # fig.autofmt_xdate(rotation=45)
         # plt.gca().xaxis.set_major_formatter(ticker.FormatStrFormatter('%.2f'))
@@ -259,10 +294,17 @@ class cls_plt_fig():
 
         if minor:
             ax.minorticks_on()
-            ax.xaxis.set_tick_params(which='minor', bottom=False)
+
             ax_array[0].tick_params(axis='y', which='minor',width=1.5, length=3, labelsize = font_size, direction='out')
-            yminorLocator = ticker.MultipleLocator(0.5)
-            ax.yaxis.set_minor_locator(yminorLocator)
+            # yminorLocator = ticker.MultipleLocator(20)
+            # ax.yaxis.set_minor_locator(yminorLocator)
+            # yminorLocator = ticker.LogLocator(10)
+            # ax.yaxis.set_minor_locator(yminorLocator)
+
+            xminorLocator = ticker.MultipleLocator(0.5)
+            ax.xaxis.set_tick_params(which='minor', bottom=True)
+            # ax.xaxis.set_tick_params(axis='x', which='minor',width=1.5, length=3, labelsize = font_size, direction='out')
+            ax.xaxis.set_minor_locator(xminorLocator)
 #         plt.rcParams['font.family']='Arial'
         plt.savefig(fig_name, format='svg')
         plt.show()
